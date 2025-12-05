@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tools Landscape Dashboard | Hena Naeem</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #fff; color: #2c3e50; }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1a2332 0%, #2c3e50 100%);
+            color: white;
+            padding: 30px 40px;
+        }
+        .header h1 { font-size: 32px; margin-bottom: 8px; }
+        .header p { font-size: 16px; opacity: 0.9; }
+        
+        /* Tabs */
+        .tabs {
+            background: #f8f9fa;
+            border-bottom: 2px solid #1a2332;
+            display: flex;
+            padding: 0 40px;
+        }
+        
+        button.tab {
+            padding: 18px 30px;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            font-size: 16px;
+            font-weight: 500;
+            color: #6c757d;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        button.tab:hover {
+            color: #1a2332;
+            background: #e9ecef;
+        }
+        
+        button.tab.active {
+            color: #1a2332;
+            border-bottom-color: #d4af37;
+            background: white;
+        }
+        
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            padding: 40px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Section Headers */
+        .section-header {
+            color: #1a2332;
+            font-size: 28px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #d4af37;
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            border-color: #d4af37;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            transform: translateY(-3px);
+        }
+        
+        .stat-label {
+            font-size: 13px;
+            color: #6c757d;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+        
+        .stat-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: #1a2332;
+        }
+        
+        .stat-sublabel {
+            font-size: 12px;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+        
+        .section-subheader {
+            color: #1a2332;
+            font-size: 20px;
+            margin-top: 40px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .section-subtext {
+            color: #6c757d;
+            font-size: 14px;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        
+        /* Charts */
+        .chart-container {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 35px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+            border: 1px solid #e9ecef;
+        }
+        
+        .chart-container iframe {
+            width: 100%;
+            border: none;
+            overflow: hidden;
+        }
+        
+        .chart-container iframe.scrollable {
+            overflow: auto;
+        }
+        
+        /* Info Boxes */
+        .key-insights {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border-left: 4px solid #6b5435;
+            padding: 25px;
+            margin: 40px 0;
+            border-radius: 8px;
+        }
+        
+        .key-insights h3 {
+            color: #6b5435;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .key-insights ul {
+            margin-left: 20px;
+            line-height: 1.8;
+            color: #856404;
+        }
+        
+        .key-insights li {
+            margin-bottom: 8px;
+        }
+        
+        /* Tool Finder */
+        .tool-finder {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 40px;
+            border: 2px solid #e9ecef;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #1a2332;
+            font-size: 15px;
+        }
+        
+        select {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 15px;
+            background: white;
+            color: #2c3e50;
+            cursor: pointer;
+        }
+        
+        select:focus {
+            outline: none;
+            border-color: #d4af37;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #1a2332 0%, #2c3e50 100%);
+            color: white;
+            padding: 16px 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(26, 35, 50, 0.3);
+        }
+        
+        #toolResult {
+            margin-top: 30px;
+            padding: 30px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #d4af37;
+            display: none;
+        }
+        
+        #toolResult.show {
+            display: block;
+        }
+        
+        .tool-card {
+            background: #f8f9fa;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border-left: 3px solid #d4af37;
+        }
+        
+        .tool-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a2332;
+            margin-bottom: 5px;
+        }
+        
+        .tool-rating {
+            color: #d4af37;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .tool-description {
+            color: #6c757d;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .tool-link {
+            display: inline-block;
+            background: #1a2332;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+        
+        .tool-link:hover {
+            background: #2c3e50;
+        }
+        
+        .tool-source {
+            color: #6c757d;
+            font-size: 12px;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #1a2332;
+            color: white;
+            padding: 25px 40px;
+            text-align: center;
+            margin-top: 50px;
+        }
+        
+        .footer p {
+            margin: 5px 0;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1>AI Tools Landscape Dashboard</h1>
+        <p>Analysis by Hena Naeem (Dec 2025)</p>
+    </div>
+    
+    <!-- Tabs -->
+    <div class="tabs">
+        <button class="tab active" id="btn1" onclick="switchTab(1)">The ChatGPT Effect</button>
+        <button class="tab" id="btn2" onclick="switchTab(2)">Market Insights</button>
+        <button class="tab" id="btn3" onclick="switchTab(3)">Tool Finder</button>
+    </div>
+    
+    <!-- Tab 1: THE CHATGPT EFFECT -->
+    <div id="content1" class="tab-content active">
+        <h2 class="section-header">The ChatGPT Effect: How One Launch Changed Everything</h2>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Total AI Tools</div>
+                <div class="stat-value">2,480</div>
+                <div class="stat-sublabel">Tools Catalogued</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">YouTube Videos</div>
+                <div class="stat-value">407</div>
+                <div class="stat-sublabel">Videos Analyzed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Total Views</div>
+                <div class="stat-value">173.8M</div>
+                <div class="stat-sublabel">Engagement Measured</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Search Interest</div>
+                <div class="stat-value">10,967%</div>
+                <div class="stat-sublabel">Growth Post-ChatGPT</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Pre-ChatGPT</div>
+                <div class="stat-value">3.4%</div>
+                <div class="stat-sublabel">14 videos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Post-ChatGPT</div>
+                <div class="stat-value">96.6%</div>
+                <div class="stat-sublabel">393 videos</div>
+            </div>
+        </div>
+        
+        <div class="chart-container">
+            <iframe src="1_chatgpt_inflection_point_CROPPED.html" height="600px"></iframe>
+        </div>
+        
+        <div class="chart-container">
+            <iframe src="FINAL_chatgpt_effect_bars.html" height="550px"></iframe>
+        </div>
+        
+        <div class="chart-container">
+            <iframe src="FINAL_dual_donuts_FINAL.html" height="650px"></iframe>
+        </div>
+        
+        <div class="chart-container">
+            <iframe src="FINAL_content_evolution.html" height="600px"></iframe>
+        </div>
+    </div>
+    
+    <!-- Tab 2: MARKET INSIGHTS -->
+    <div id="content2" class="tab-content">
+        <h2 class="section-header">Market Insights & Opportunities</h2>
+        
+        <!-- 1. Interest vs Content -->
+        <h3 class="section-subheader">Interest vs Content Over Time</h3>
+        <p class="section-subtext">Search interest and creator activity both surge after ChatGPT.</p>
+        <div class="chart-container">
+            <img src="interest_vs_content.png" alt="Interest vs Content: Google Searches and YouTube Videos Over Time" style="width:100%; max-width:1400px; display:block; margin:0 auto;">
+        </div>
+        
+        <!-- 2. Supply vs Demand -->
+        <h3 class="section-subheader">Supply vs Demand Across AI Categories</h3>
+        <p class="section-subtext">Comparing number of tools vs YouTube views highlights underserved markets.</p>
+        <div class="chart-container">
+            <img src="supply_vs_demand.png" alt="Supply vs Demand Across AI Categories" style="width:100%; max-width:1400px; display:block; margin:0 auto;">
+        </div>
+        
+        <!-- 3. Winners vs Losers -->
+        <h3 class="section-subheader">Attention Gap: Top Creators vs Everyone Else</h3>
+        <p class="section-subtext">A small number of videos capture the majority of views.</p>
+        <div class="chart-container">
+            <iframe src="TAB2_winners_comparison_CARDS.html" height="700px"></iframe>
+        </div>
+        
+        <!-- 4. Category Performance -->
+        <h3 class="section-subheader">High-Performing Content Themes</h3>
+        <p class="section-subtext">Certain AI content categories consistently generate higher engagement.</p>
+        <div class="chart-container">
+            <iframe src="TAB2_category_winners_fixed_v2.html" height="650px"></iframe>
+        </div>
+        
+        <!-- 5. Title Features -->
+        <h3 class="section-subheader">Title Features Used by Creators</h3>
+        <p class="section-subtext">Common patterns in titles of successful AI tool videos.</p>
+        <div class="chart-container">
+            <iframe src="TAB2_title_pies_CONSISTENT.html" height="450px"></iframe>
+        </div>
+        
+        <!-- 6. Title Impact -->
+        <h3 class="section-subheader">Impact of Title Choices on Performance</h3>
+        <p class="section-subtext">Some title elements help visibility; others significantly reduce it.</p>
+        <div class="chart-container">
+            <iframe src="TAB2_success_factors_table.html" height="600px"></iframe>
+        </div>
+        
+        <!-- Key Insights -->
+        <div class="key-insights">
+            <h3>⭐ Key Insights for Entrepreneurs</h3>
+            <ul>
+                <li><strong>Demand outpaces supply</strong> in categories like Education, Business, Writing, and Research/ML.</li>
+                <li><strong>Discovery is winner-take-all:</strong> top videos massively outperform the rest.</li>
+                <li><strong>Content themes matter:</strong> certain angles (students, software, "AI Tools 2024") generate stronger engagement.</li>
+                <li><strong>Title choices directly impact visibility:</strong>
+                    <ul style="margin-top: 8px;">
+                        <li>"AI" boosts views</li>
+                        <li>"Tutorial / How to" performs well</li>
+                        <li>"Best" and "Free" consistently underperform</li>
+                    </ul>
+                </li>
+                <li><strong>Opportunities exist</strong> where demand is high and tool availability is low.</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Tab 3: TOOL FINDER -->
+    <div id="content3" class="tab-content">
+        <h2 class="section-header">AI Tool Guidance System</h2>
+        
+        <div class="tool-finder">
+            <p style="margin-bottom: 25px; font-size: 16px; color: #6c757d;">
+                Find the right AI tool category based on your needs, experience level, and budget.
+            </p>
+            
+            <div class="form-group">
+                <label class="form-label">What's your primary use case?</label>
+                <select id="category">
+                    <option value="">-- Select Category --</option>
+                    <option value="business">Business & Marketing</option>
+                    <option value="education">Education & Learning</option>
+                    <option value="creative">Creative & Design</option>
+                    <option value="development">Development & Coding</option>
+                    <option value="writing">Writing & Content</option>
+                    <option value="productivity">Productivity & Automation</option>
+                    <option value="chatbots">Chatbots & Conversational AI</option>
+                    <option value="general">General AI Tools</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">What's your experience level?</label>
+                <select id="experience">
+                    <option value="">-- Select Experience --</option>
+                    <option value="beginner">Beginner (Just starting out)</option>
+                    <option value="intermediate">Intermediate (Some experience)</option>
+                    <option value="advanced">Advanced (Technical expertise)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">What's your budget?</label>
+                <select id="budget">
+                    <option value="">-- Select Budget --</option>
+                    <option value="free">Free tools only</option>
+                    <option value="freemium">Freemium (Free + paid options)</option>
+                    <option value="paid">Paid tools</option>
+                    <option value="enterprise">Enterprise solutions</option>
+                </select>
+            </div>
+            
+            <button class="btn-primary" onclick="getRecommendation()">Get Guidance</button>
+            
+            <div id="toolResult"></div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <div class="footer">
+        <p><strong>Research & Analysis by Hena Naeem | December 2025</strong></p>
+        <p>Data Sources: 2,480 tools analyzed | 407 YouTube videos | 173.8M views | 5-year Google Trends</p>
+    </div>
+    
+    <script>
+        // Tab switching
+        function switchTab(tabNum) {
+            document.getElementById('content1').classList.remove('active');
+            document.getElementById('content2').classList.remove('active');
+            document.getElementById('content3').classList.remove('active');
+            
+            document.getElementById('btn1').classList.remove('active');
+            document.getElementById('btn2').classList.remove('active');
+            document.getElementById('btn3').classList.remove('active');
+            
+            document.getElementById('content' + tabNum).classList.add('active');
+            document.getElementById('btn' + tabNum).classList.add('active');
+        }
+        
+        // Tool data
+        const toolsByCategory = {
+    business: [
+        {name: "Andreas Christodoulou", rating: 4.0, description: "Andreas Christodoulou (best known as \"andreascy\") is a Belgium based Entrepreneur with a strong sense of purpose, vision, and personal control. He works with companies and like-minded achievers providing products and ser", url: "https://www.producthunt.com/products/andreas-christodoulou?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A++AI+Tools+Academic+Research+%28ID%3A+249205%29", source: "Product Hunt"},
+        {name: "Bornday", rating: 4.0, description: "Bornday sends birthday deals from businesses directly to your inbox. Just enter your birthday and email once, then receive fresh deals every year automatically. Businesses can list a birthday offer and reach new customer", url: "https://www.producthunt.com/products/bornday?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A++AI+Tools+Academic+Research+%28ID%3A+249205%29", source: "Product Hunt"},
+        {name: "AskGAAI – Your AI Analyst for GA4 & Ads", rating: 4.0, description: "Most GA4 tools still expect you to live in dashboards. AskGAAI flips it. Connect GA4 + Google Ads once and get: Daily email briefs with yesterday’s key metrics, 3 insights, and 1 clear action. Real‑time alerts when traff", url: "https://www.producthunt.com/products/askgaai-ga4-copilot?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A++AI+Tools+Academic+Research+%28ID%3A+249205%29", source: "Product Hunt"},
+    ],
+    education: [
+        {name: "Career Path Hacker: your learning path", rating: 4.0, description: "Career Path Hacker uses AI to turn 350,000+ online courses into a clear, step-by-step roadmap from your current role to your next one. Get a personalized learning path, skill gap insights, and vetted course picks in minu", url: "https://www.producthunt.com/products/career-path-hacker-your-learning-path?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A++AI+Tools+Academic+Research+%28ID%3A+249205%29", source: "Product Hunt"},
+        {name: "Dhrona Campus Preview", rating: 4.0, description: "85% of graduates aren't job-ready. We're changing that. Dhrona Campus combines edutainment + personalized guidance to bridge the gap between academia and industry. ✨ Key Features: • Peer-to-peer soft skills practice • Fe", url: "https://www.producthunt.com/products/dhrona-campus-preview?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A++AI+Tools+Academic+Research+%28ID%3A+249205%29", source: "Product Hunt"},
+        {name: "cloudswansolution.com", rating: 4.0, description: "Cloudswan Solution is the Best Software training institute in Coimbatore offering expert courses in IT, software, cloud technologies for career growth. At Cloudswan Solution, we provide hands-on training with real-time p", url: "https://www.producthunt.com/products/cloudswansolution-com?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A++AI+Tools+Academic+Research+%28ID%3A+249205%29", source: "Product Hunt"},
+    ],
+    creative: [
+        {name: "Questas", rating: 5.0, description: "Questas lets you build choose-your-own-adventure stories with AI-generated images and videos. Start with a character and a simple concept, and Questas turns it into a branching story you can edit, share, and play through", url: "https://www.producthunt.com/products/questas?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A++AI+Tools+Academic+Research+%28ID%3A+249205%29", source: "Product Hunt"},
+        {name: "uSpeedo.ai", rating: 4.0, description: "uSpeedo.ai gives small businesses AI-powered marketing tools: generate social posts and product videos, analyze your brand and competitors, and manage multiple social accounts — all in one simple platform.", url: "https://www.producthunt.com/products/uspeedo-ai?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A++AI+Tools+Academic+Research+%28ID%3A+249205%29", source: "Product Hunt"},
+        {name: "Room8: AI Mood Tracker", rating: 4.0, description: "Room8 is a simple AI-powered mood tracker that helps you understand your emotions, build better habits, and reflect on your mental well-being. Log your moods and activities, get weekly AI summaries, and chat with your pe", url: "https://www.producthunt.com/products/room8-ai-mood-tracker?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A++AI+Tools+Academic+Research+%28ID%3A+249205%29", source: "Product Hunt"},
+    ],
+    development: [
+        {name: "AskCodi", rating: 4.5, description: "We provide an OpenAI-compatible orchestration layer that lets teams compose their own “virtual models” on top of any LLM - combining prompts, reasoning, review, and guardrails, and use them everywhere from your IDE to yo", url: "https://www.producthunt.com/products/askcodi?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A++AI+Tools+Academic+Research+%28ID%3A+249205%29", source: "Product Hunt"},
+        {name: "Makersfuel", rating: 4.2, description: "Makersfuel is a project-based learning platform for vibe coders. Instead of random tutorials, you pick complete full-stack projects (ChatGPT, Twitter, Gmail, etc.) and follow a clear step-by-step playbook with detailed b", url: "https://www.producthunt.com/products/makersfuel?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A++AI+Tools+Academic+Research+%28ID%3A+249205%29", source: "Product Hunt"},
+        {name: "Imference", rating: 4.0, description: "Imference is a high-performance, API providing access to multiple state-of-the-art image generation models.", url: "https://www.producthunt.com/products/imference?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A++AI+Tools+Academic+Research+%28ID%3A+249205%29", source: "Product Hunt"},
+    ],
+    writing: [
+        {name: "ContentForge", rating: 4.0, description: "Stop paying for multiple SEO tools like Semrush, Ahrefs, and Local Falcon. ContentForge gives marketing agencies enterprise-level SEO tools in one affordable platform. Build SEO-optimized websites in minutes, not days. G", url: "https://www.producthunt.com/products/contentforge-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A++AI+Tools+Academic+Research+%28ID%3A+249205%29", source: "Product Hunt"},
+        {name: "Magic Gen", rating: 4.0, description: "Generate professional song lyrics with AI. literally dont belive me open once it roasts ur freinds to make them enemy tell it if u want eminems touch or mickal jackson or literally tailor swift it will make songs lyrics ", url: "https://www.producthunt.com/products/magic-gen?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A++AI+Tools+Academic+Research+%28ID%3A+249205%29", source: "Product Hunt"},
+        {name: "Podbook", rating: 4.0, description: "Podbook – Dive into the books that shaped history’s greatest minds. Experience immersive reading with synchronized audio, sentence highlighting, and a timeless library curated for impact. Switch seamlessly between readin", url: "https://www.producthunt.com/products/podbook?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A++AI+Tools+Academic+Research+%28ID%3A+249205%29", source: "Product Hunt"},
+    ],
+    productivity: [
+        {name: "FireCut for DaVinci Resolve", rating: 4.8, description: "FireCut for DaVinci Resolve boosts your editing productivity by bringing AI seamlessly into your workflow, and speeding up all the repetitive tasks like cleaning up footage, adding zoom cuts, detecting chapters, clipping", url: "https://www.producthunt.com/products/firecut-ai?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A++AI+Tools+Academic+Research+%28ID%3A+249205%29", source: "Product Hunt"},
+        {name: "Eva", rating: 4.5, description: "Meet Eva — a voice-to-content assistant inside Evatar. Just talk, and Eva turns ideas into ready posts, visuals or videos. Eva also lets you create social-media agents for specific tasks: Affiliative Mode — helps you sel", url: "https://www.producthunt.com/products/evatar-ai?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A++AI+Tools+Academic+Research+%28ID%3A+249205%29", source: "Product Hunt"},
+        {name: "ツSupercut for Windows", rating: 4.4, description: "Best-in-class screen recording from ツSupercut now comes natively to Windows. *Blazing Native Speed* Built in native code for best-in-class performance, so your machine does not break a sweat. *Up to 4K Resolution* Record", url: "https://www.producthunt.com/products/supercut?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A++AI+Tools+Academic+Research+%28ID%3A+249205%29", source: "Product Hunt"},
+    ],
+    chatbots: [
+        {name: "Chatbot UI", rating: 4.0, description: "No description available yet.", url: "https://www.chatbotui.com/", source: "GitHub"},
+        {name: "WebChatGPT", rating: 4.0, description: "No description available yet.", url: "https://chrome.google.com/webstore/detail/webchatgpt-chatgpt-with-i/lpfemeioodjbpieminkklglpmhlngfcn", source: "GitHub"},
+        {name: "ChatGPT for Sheets, Docs, Slides, Forms", rating: 4.0, description: "No description available yet.", url: "https://workspace.google.com/marketplace/app/gpt_for_sheets_docs_forms_slides/466607203252", source: "GitHub"},
+    ],
+    general: [
+        {name: "Adventure Box", rating: 4.0, description: "Break the screen addiction cycle with AI-powered, personalized activities. Get daily screen-free adventures tailored to your child's interests, your schedule, and what you have at home. No more scrolling, just family mom", url: "https://www.producthunt.com/products/adventure-box?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A++AI+Tools+Academic+Research+%28ID%3A+249205%29", source: "Product Hunt"},
+        {name: "Design Scribe Solutions", rating: 4.0, description: "This easy-to-use mobile app helps you earn rewards every time you visit. No more paper cards to carry or lose - everything is right on your phone! 👌 \"Scan. Stamp. Save. The easiest way to get rewarded.\" (Focuses on the Q", url: "https://www.producthunt.com/products/design-scribe-solutions?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A++AI+Tools+Academic+Research+%28ID%3A+249205%29", source: "Product Hunt"},
+        {name: "Who Goes First?", rating: 4.0, description: "Instantly decide who goes first in games, standups, meetings, or any situation. Simple, fast, and fun random picker.", url: "https://www.producthunt.com/products/who-goes-first?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A++AI+Tools+Academic+Research+%28ID%3A+249205%29", source: "Product Hunt"},
+    ],
+};        
+        const categoryData = {
+            business: {status: "🟡 HIGH OPPORTUNITY", tools: 1, videos: 53, views: "29.3M"},
+            education: {status: "🟡 HIGH OPPORTUNITY", tools: 5, videos: 19, views: "25.6M"},
+            creative: {status: "🟢 MODERATE", tools: 44, videos: 56, views: "11.8M"},
+            development: {status: "🔴 SATURATED", tools: 2144, videos: 42, views: "9.9M"},
+            writing: {status: "🟢 BALANCED", tools: 24, videos: 17, views: "5.4M"},
+            productivity: {status: "🟢 BALANCED", tools: 154, videos: 18, views: "3.2M"},
+            chatbots: {status: "🟢 BALANCED", tools: 33, videos: 45, views: "18.2M"},
+            general: {status: "🔴 HIGH COMPETITION", tools: 62, videos: 109, views: "42.1M"}
+        };
+        
+        const experienceAdvice = {
+            beginner: "Start with user-friendly, no-code tools. Look for platforms with strong documentation and tutorials.",
+            intermediate: "Consider tools with both GUI and API access for maximum flexibility.",
+            advanced: "Explore advanced features, APIs, and integration capabilities."
+        };
+        
+        const budgetAdvice = {
+            free: "Focus on freemium tools with generous free tiers.",
+            freemium: "Best value - start free, upgrade as needed. Most successful tools follow this model.",
+            paid: "Access to full features, priority support, and advanced capabilities.",
+            enterprise: "Custom pricing with SLAs, dedicated support, and advanced security."
+        };
+        
+        function getRecommendation() {
+            const category = document.getElementById('category').value;
+            const experience = document.getElementById('experience').value;
+            const budget = document.getElementById('budget').value;
+            const resultDiv = document.getElementById('toolResult');
+            
+            if (!category || !experience || !budget) {
+                resultDiv.innerHTML = '<p style="color: #e74c3c; font-weight: 600;">⚠️ Please fill in all three fields</p>';
+                resultDiv.classList.add('show');
+                return;
+            }
+            
+            const data = categoryData[category];
+            const tools = toolsByCategory[category];
+            const expAdvice = experienceAdvice[experience];
+            const budAdvice = budgetAdvice[budget];
+            
+            let toolsHTML = '';
+            tools.forEach((tool, index) => {
+                const stars = '⭐'.repeat(Math.round(tool.rating));
+                toolsHTML += `
+                    <div class="tool-card">
+                        <div class="tool-name">${index + 1}. ${tool.name}</div>
+                        <div class="tool-rating">${stars} (${tool.rating}/5)</div>
+                        <div class="tool-description">${tool.description}</div>
+                        <a href="${tool.url}" class="tool-link" target="_blank">Visit Website</a>
+                        <span class="tool-source">${tool.source}</span>
+                    </div>
+                `;
+            });
+            
+            resultDiv.innerHTML = `
+                <h3 style="color: #1a2332; margin-bottom: 20px; font-size: 22px;">📊 Recommendation</h3>
+                
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                    <h4 style="color: #1a2332; margin-bottom: 12px;">Market Status:</h4>
+                    <p style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">${data.status}</p>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 15px;">
+                        <div style="background: white; padding: 15px; border-radius: 6px; text-align: center;">
+                            <div style="font-size: 12px; color: #6c757d;">TOOLS</div>
+                            <div style="font-size: 22px; font-weight: 700; color: #1a2332;">${data.tools}</div>
+                        </div>
+                        <div style="background: white; padding: 15px; border-radius: 6px; text-align: center;">
+                            <div style="font-size: 12px; color: #6c757d;">VIDEOS</div>
+                            <div style="font-size: 22px; font-weight: 700; color: #1a2332;">${data.videos}</div>
+                        </div>
+                        <div style="background: white; padding: 15px; border-radius: 6px; text-align: center;">
+                            <div style="font-size: 12px; color: #6c757d;">VIEWS</div>
+                            <div style="font-size: 22px; font-weight: 700; color: #1a2332;">${data.views}</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background: #fff3cd; border-left: 4px solid #d4af37; padding: 20px; border-radius: 6px; margin-bottom: 15px;">
+                    <h4 style="color: #856404; margin-bottom: 10px;">💡 For Your Experience Level:</h4>
+                    <p style="color: #856404; line-height: 1.8;">${expAdvice}</p>
+                </div>
+                
+                <div style="background: #d1ecf1; border-left: 4px solid #17a2b8; padding: 20px; border-radius: 6px; margin-bottom: 25px;">
+                    <h4 style="color: #0c5460; margin-bottom: 10px;">💰 For Your Budget:</h4>
+                    <p style="color: #0c5460; line-height: 1.8;">${budAdvice}</p>
+                </div>
+                
+                <h3 style="color: #1a2332; margin-bottom: 20px; font-size: 20px;">🏆 Top 3 Recommended Tools</h3>
+                ${toolsHTML}
+            `;
+            
+            resultDiv.classList.add('show');
+        }
+    </script>
+</body>
+</html>
