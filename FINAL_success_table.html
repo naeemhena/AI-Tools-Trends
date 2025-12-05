@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            background: #f8f9fa;
+        }
+        
+        .success-table {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .table-header {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .table-header h2 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .table-subtitle {
+            margin-top: 10px;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .table-body {
+            padding: 30px;
+        }
+        
+        .success-row {
+            display: grid;
+            grid-template-columns: 50px 300px 1fr 150px;
+            align-items: center;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .success-row:hover {
+            background: #f8f9fa;
+            transform: translateX(5px);
+        }
+        
+        .success-row.positive {
+            border-left: 5px solid #28a745;
+            background: #f1f9f3;
+        }
+        
+        .success-row.negative {
+            border-left: 5px solid #dc3545;
+            background: #fdf2f2;
+        }
+        
+        .icon {
+            font-size: 32px;
+            text-align: center;
+        }
+        
+        .factor {
+            font-weight: bold;
+            font-size: 16px;
+            color: #2c3e50;
+        }
+        
+        .description {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .impact {
+            text-align: right;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        
+        .impact.positive {
+            color: #28a745;
+        }
+        
+        .impact.negative {
+            color: #dc3545;
+        }
+        
+        .insight-box {
+            background: #fff3cd;
+            border-left: 5px solid #d4af37;
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 10px;
+        }
+        
+        .insight-box h3 {
+            color: #856404;
+            margin-top: 0;
+            font-size: 20px;
+        }
+        
+        .insight-box p {
+            color: #856404;
+            line-height: 1.8;
+            margin: 10px 0;
+        }
+        
+        .opportunity-spotlight {
+            background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        
+        .opportunity-spotlight h3 {
+            margin-top: 0;
+            font-size: 24px;
+            text-align: center;
+        }
+        
+        .opp-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .opp-card {
+            background: rgba(255,255,255,0.2);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .opp-card h4 {
+            margin: 0 0 10px 0;
+            font-size: 18px;
+        }
+        
+        .opp-card .stat {
+            font-size: 14px;
+            opacity: 0.9;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="success-table">
+        <div class="table-header">
+            <h2>Title Features & Success Patterns</h2>
+            <div class="table-subtitle">What keywords drive views? Analysis of 407 videos, 173.8M views</div>
+        </div>
+        
+        <div class="table-body">
+            <div class="success-row positive">
+                <div class="icon">✅</div>
+                <div class="factor">"AI" in Title</div>
+                <div class="description">Including "AI" increases discoverability and relevance</div>
+                <div class="impact positive">+41%</div>
+            </div>
+            
+            <div class="success-row positive">
+                <div class="icon">✅</div>
+                <div class="factor">Numbers in Title</div>
+                <div class="description">Lists and quantified content ("Top 10", "5 Best") perform well</div>
+                <div class="impact positive">+10%</div>
+            </div>
+            
+            <div class="success-row positive">
+                <div class="icon">✅</div>
+                <div class="factor">Educational Focus</div>
+                <div class="description">Tutorial and "how-to" content has higher retention</div>
+                <div class="impact positive">+2.5x</div>
+            </div>
+            
+            <div class="success-row negative">
+                <div class="icon">❌</div>
+                <div class="factor">"Free" in Title</div>
+                <div class="description">Oversaturated keyword, lower perceived value</div>
+                <div class="impact negative">-62%</div>
+            </div>
+            
+            <div class="success-row negative">
+                <div class="icon">❌</div>
+                <div class="factor">"Best" in Title</div>
+                <div class="description">Overused, reduced trust and engagement</div>
+                <div class="impact negative">-47%</div>
+            </div>
+            
+            <div class="success-row negative">
+                <div class="icon">❌</div>
+                <div class="factor">"ChatGPT" in Title</div>
+                <div class="description">Market saturation from late 2023 onwards</div>
+                <div class="impact negative">-74%</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="insight-box">
+        <h3>💡 Key Insight: Focus on Specificity</h3>
+        <p><strong>Generic keywords are dying.</strong> Terms like "best" and "free" are so oversaturated that they actively hurt performance. Winners focus on specific use cases, educational value, and authentic recommendations.</p>
+        <p><strong>Example:</strong> Instead of "Best Free AI Tools 2024", try "AI Tools for Small Business Marketing (Step-by-Step Guide)"</p>
+    </div>
+    
+    <div class="opportunity-spotlight">
+        <h3>🎯 TOP 3 MARKET OPPORTUNITIES</h3>
+        <div class="opp-grid">
+            <div class="opp-card">
+                <h4>Education & Learning</h4>
+                <div class="stat">📦 5 tools (0.2%)</div>
+                <div class="stat">👁️ 25.6M views</div>
+                <div class="stat">📈 Opportunity Score: 5.1</div>
+            </div>
+            
+            <div class="opp-card">
+                <h4>Business & Marketing</h4>
+                <div class="stat">📦 1 tool (<1%)</div>
+                <div class="stat">👁️ 29.3M views</div>
+                <div class="stat">📈 Opportunity Score: 14.7</div>
+            </div>
+            
+            <div class="opp-card">
+                <h4>Creative & Design</h4>
+                <div class="stat">📦 44 tools (1.8%)</div>
+                <div class="stat">👁️ 11.8M views</div>
+                <div class="stat">📈 Opportunity Score: 0.27</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="insight-box">
+        <h3>📊 Key Recommendations for Entrepreneurs</h3>
+        <p><strong>1. Target Underserved Categories</strong><br>
+        Education (0.2% of tools, 25M+ views) and Business (<1% of tools, 29M+ views) offer the highest opportunity scores. Avoid development tools (87% saturated).</p>
+        
+        <p><strong>2. Optimize Content for Discovery</strong><br>
+        Include "AI" in your tool name/marketing (+41% visibility). Avoid generic "free" or "best" positioning which decreases performance by 47-62%.</p>
+        
+        <p><strong>3. Ride the Post-ChatGPT Wave</strong><br>
+        The market shifted permanently in Nov 2022. Post-ChatGPT content gets 3.2x more engagement. Position your tool in this new paradigm, not the old one.</p>
+        
+        <p><strong>4. Focus on Educational Value</strong><br>
+        Tutorial and "how-to" content performs 2.5x better than comparison/review content. Build tools that teach, not just tools that automate.</p>
+    </div>
+</body>
+</html>
